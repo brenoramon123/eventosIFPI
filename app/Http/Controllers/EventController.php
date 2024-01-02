@@ -71,7 +71,9 @@ class EventController extends Controller
     }
 
     public function destroy($id){
-        Event::findOrFail($id)->delete();
+        $event = Event::findOrFail($id);
+        $event->users()->detach(); // Remover todas as associações de usuários para este evento
+        $event->delete();
 
         return redirect('/dashboard')->with('msg','Evento excluido com sucesso!');
     }
